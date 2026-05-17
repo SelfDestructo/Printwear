@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Garments — Printwear of Oregon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #1a1a1a;
+      --dark: #2d2d2d;
+      --mid: #555;
+      --light: #f5f5f5;
+      --white: #ffffff;
+      --accent: #c8102e;
+      --accent-dark: #a00d24;
+      --success: #1a7f4b;
+      --border: #e0e0e0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--black);
+      line-height: 1.6;
+      background: var(--white);
+    }
+
+    /* HEADER */
+    .site-header {
+      background: var(--black);
+      color: var(--white);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .site-header .logo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .site-header .logo span {
+      color: var(--accent);
+    }
+
+    .site-header a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .site-header a:hover { text-decoration: underline; }
+
+    /* HERO */
+    .hero {
+      background: var(--light);
+      text-align: center;
+      padding: 60px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      color: var(--black);
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--mid);
+      max-width: 560px;
+      margin: 0 auto 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      padding: 12px 28px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: background 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover { background: var(--dark); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--black);
+      border: 2px solid var(--border);
+    }
+
+    .btn-outline:hover { border-color: var(--black); background: var(--light); }
+
+    .btn-accent {
+      background: var(--accent);
+    }
+
+    .btn-accent:hover { background: var(--accent-dark); }
+
+    /* CATEGORIES NAV */
+    .cat-nav {
+      position: sticky;
+      top: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 0 24px;
+    }
+
+    .cat-nav ul {
+      display: flex;
+      gap: 0;
+      list-style: none;
+      overflow-x: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .cat-nav ul::-webkit-scrollbar { display: none; }
+
+    .cat-nav li { flex-shrink: 0; }
+
+    .cat-nav a {
+      display: block;
+      padding: 14px 20px;
+      text-decoration: none;
+      color: var(--mid);
+      font-size: 14px;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .cat-nav a:hover, .cat-nav a.active {
+      color: var(--black);
+      border-bottom-color: var(--accent);
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* SECTION */
+    .section {
+      padding: 56px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section:last-of-type { border-bottom: none; }
+
+    .section-header {
+      margin-bottom: 36px;
+    }
+
+    .section-header h2 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .section-header p {
+      color: var(--mid);
+      font-size: 15px;
+    }
+
+    /* GARMENT GRID */
+    .garment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .garment-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--white);
+      transition: box-shadow 0.2s;
+    }
+
+    .garment-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .garment-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      background: var(--light);
+      display: block;
+    }
+
+    .garment-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--mid);
+      font-size: 13px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .garment-body {
+      padding: 20px;
+    }
+
+    .garment-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .garment-type {
+      font-size: 13px;
+      color: var(--mid);
+      margin-bottom: 12px;
+    }
+
+    .garment-price {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .garment-price span {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* COLOR SWATCHES */
+    .color-section { margin-bottom: 16px; }
+
+    .color-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .swatches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.12);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .swatch:hover::after {
+      content: attr(data-name);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--black);
+      color: var(--white);
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      z-index: 10;
+    }
+
+    .more-colors {
+      font-size: 12px;
+      color: var(--mid);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .more-colors:hover { text-decoration: underline; color: var(--black); }
+
+    /* CATALOG LINK */
+    .catalog-cta {
+      background: var(--light);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .catalog-cta p {
+      font-size: 15px;
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    /* QUOTE FORM */
+    #quote-form-section { background: var(--light); }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .form-label .req { color: var(--accent); }
+
+    .form-input, .form-select, .form-textarea {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 15px;
+      font-family: inherit;
+      background: var(--white);
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--black);
+    }
+
+    .form-textarea { resize: vertical; min-height: 100px; }
+
+    .form-select { appearance: none; cursor: pointer; }
+
+    /* MIN ORDER NOTICE */
+    .min-order-notice {
+      background: #fff8e6;
+      border: 1px solid #f5c84c;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: #7a5c00;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .min-order-notice strong { display: block; margin-bottom: 4px; }
+
+    .min-order-notice.hidden { display: none; }
+
+    /* DECORATION NOTE */
+    .decoration-note {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 13px;
+      color: var(--mid);
+      margin-bottom: 24px;
+    }
+
+    /* FILE UPLOAD */
+    .file-upload-wrap {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .file-upload-wrap:hover, .file-upload-wrap.dragover {
+      border-color: var(--black);
+      background: var(--light);
+    }
+
+    .file-upload-wrap input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-upload-icon { font-size: 28px; margin-bottom: 8px; }
+    .file-upload-text { font-size: 14px; color: var(--mid); }
+    .file-upload-text strong { color: var(--black); }
+    .file-upload-hint { font-size: 12px; color: var(--mid); margin-top: 4px; }
+    .file-name { font-size: 13px; font-weight: 500; color: var(--success); margin-top: 8px; }
+
+    /* FORM FOOTER */
+    .form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .form-privacy {
+      font-size: 12px;
+      color: var(--mid);
+    }
+
+    /* SUCCESS STATE */
+    .form-success {
+      text-align: center;
+      padding: 60px 24px;
+    }
+
+    .form-success-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+    }
+
+    .form-success h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .form-success p {
+      color: var(--mid);
+      font-size: 16px;
+      max-width: 420px;
+      margin: 0 auto 24px;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      background: var(--black);
+      color: var(--white);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 14px;
+    }
+
+    .site-footer a { color: var(--white); }
+    .site-footer a:hover { text-decoration: underline; }
+
+    /* UTILS */
+    .hidden { display: none !important; }
+
+    /* SECTION DIVIDER */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="logo">Printwear <span>of Oregon</span></div>
+    <a href="#quote-form-section">Get a Quote →</a>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>Find Your Perfect Garment</h1>
+      <p>Curated blanks for screen printing, embroidery & laser engraving. Not sure what you need? We'll help you choose.</p>
+      <div class="hero-actions">
+        <a href="#garments" class="btn btn-accent">Browse Garments</a>
+        <a href="#quote-form-section" class="btn btn-outline">Request a Quote</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY NAV -->
+  <nav class="cat-nav" id="garments">
+    <ul>
+      <li><a href="#tshirts" class="active" onclick="activateCategory(this)">T-Shirts</a></li>
+      <li><a href="#sweatshirts" onclick="activateCategory(this)">Sweatshirts & Hoodies</a></li>
+      <li><a href="#bags" onclick="activateCategory(this)">Bags & Totes</a></li>
+      <li><a href="#hats" onclick="activateCategory(this)">Hats</a></li>
+      <li><a href="#drinkware" onclick="activateCategory(this)">Drinkware</a></li>
+      <li><a href="#catalog-link" onclick="activateCategory(this)">Full Catalogs →</a></li>
+    </ul>
+  </nav>
+
+  <!-- T-SHIRTS -->
+  <section class="section" id="tshirts">
+    <div class="container">
+      <div class="section-header">
+        <h2>T-Shirts</h2>
+        <p>Popular styles for screen printing. Decorated pricing upon request.</p>
+      </div>
+      <div class="garment-grid">
+
+        <!-- Gildan Heavy Cotton -->
+        <div class="garment-card" data-category="tshirt">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(G500)</div>
+          <div class="garment-body">
+            <div class="garment-name">Gildan Heavy Cotton 5000</div>
+            <div class="garment-type">100% Cotton — Classic fit</div>
+            <div class="garment-price">Blank: <span>$3–$5</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#1a4a8a" data-name="Navy"></div>
+                <div class="swatch" style="background:#c0c0c0" data-name="Ash"></div>
+                <div class="swatch" style="background:#d00000" data-name="Red"></div>
+                <div class="swatch" style="background:#006400" data-name="Forest Green"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+12 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Port & Company Core -->
+        <div class="garment-card" data-category="tshirt">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(PC54)</div>
+          <div class="garment-body">
+            <div class="garment-name">Port & Company PC54</div>
+            <div class="garment-type">100% Cotton — Relaxed fit</div>
+            <div class="garment-price">Blank: <span>$4–$6</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#4b7aab" data-name="Steel Blue"></div>
+                <div class="swatch" style="background:#f5f5dc" data-name="Cream"></div>
+                <div class="swatch" style="background:#800020" data-name="Burgundy"></div>
+                <div class="swatch" style="background:#2e5a1c" data-name="Irish Green"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+20 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gildan DryBlend -->
+        <div class="garment-card" data-category="tshirt">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(92000)</div>
+          <div class="garment-body">
+            <div class="garment-name">Gildan DryBlend 92000</div>
+            <div class="garment-type">50/50 Cotton-Poly — Moisture wicking</div>
+            <div class="garment-price">Blank: <span>$5–$7</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#1a4a8a" data-name="Navy"></div>
+                <div class="swatch" style="background:#c0392b" data-name="Sport Red"></div>
+                <div class="swatch" style="background:#888888" data-name="Charcoal"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+14 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Next Level Apparel -->
+        <div class="garment-card" data-category="tshirt">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(3600)</div>
+          <div class="garment-body">
+            <div class="garment-name">Next Level 3600</div>
+            <div class="garment-type">100% Combed Cotton — Fitted style</div>
+            <div class="garment-price">Blank: <span>$6–$9</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#2c2c2c" data-name="Charcoal"></div>
+                <div class="swatch" style="background:#d4a574" data-name="Vintage Navy"></div>
+                <div class="swatch" style="background:#e8d4b8" data-name="Vintage Cream"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+18 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SWEATSHIRTS -->
+  <section class="section" id="sweatshirts">
+    <div class="container">
+      <div class="section-header">
+        <h2>Sweatshirts & Hoodies</h2>
+        <p>Screen print or embroidery friendly — great for team wear, corporate events, and bands.</p>
+      </div>
+      <div class="garment-grid">
+
+        <!-- Gildan Heavy Blend -->
+        <div class="garment-card" data-category="sweatshirt">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(G180)</div>
+          <div class="garment-body">
+            <div class="garment-name">Gildan Heavy Blend 18000</div>
+            <div class="garment-type">50/50 Cotton-Poly — Crewneck</div>
+            <div class="garment-price">Blank: <span>$8–$12</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#1a4a8a" data-name="Navy"></div>
+                <div class="swatch" style="background:#c0c0c0" data-name="Ash"></div>
+                <div class="swatch" style="background:#8b0000" data-name="Dark Heather"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+10 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Port & Company Fleece -->
+        <div class="garment-card" data-category="sweatshirt">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(PC90)</div>
+          <div class="garment-body">
+            <div class="garment-name">Port & Company PC90 Fleece</div>
+                <div class="garment-type">50/50 Cotton-Poly — Pill-resistant fleece</div>
+            <div class="garment-price">Blank: <span>$9–$13</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#1a4a8a" data-name="Navy"></div>
+                <div class="swatch" style="background:#d00000" data-name="Red"></div>
+                <div class="swatch" style="background:#4b7aab" data-name="Steel Blue"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+8 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gildan Hoodie -->
+        <div class="garment-card" data-category="sweatshirt">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(G185)</div>
+          <div class="garment-body">
+            <div class="garment-name">Gildan Heavy Blend 18500</div>
+            <div class="garment-type">50/50 Cotton-Poly — Classic hooded sweatshirt</div>
+            <div class="garment-price">Blank: <span>$12–$17</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#1a4a8a" data-name="Navy"></div>
+                <div class="swatch" style="background:#2e2e2e" data-name="Charcoal"></div>
+                <div class="swatch" style="background:#d00000" data-name="Red"></div>
+                <div class="swatch" style="background:#f5f5dc" data-name="Cream"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+12 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sport-Tek -->
+        <div class="garment-card" data-category="sweatshirt">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(ST266)</div>
+          <div class="garment-body">
+            <div class="garment-name">Sport-Tek 1/4 Zip Tricot</div>
+            <div class="garment-type">100% Polyester — Moisture wicking</div>
+            <div class="garment-price">Blank: <span>$18–$25</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#1a4a8a" data-name="Navy"></div>
+                <div class="swatch" style="background:#8b0000" data-name="Columbia Blue"></div>
+                <div class="swatch" style="background:#2e5a1c" data-name="Forest Green"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+15 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- BAGS -->
+  <section class="section" id="bags">
+    <div class="container">
+      <div class="section-header">
+        <h2>Bags & Totes</h2>
+        <p>Screen printed tote bags are a consistent seller — events, corporate gifts, schools.</p>
+      </div>
+      <div class="garment-grid">
+
+        <!-- Canvas Tote -->
+        <div class="garment-card" data-category="bag">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(B145)</div>
+          <div class="garment-body">
+            <div class="garment-name">Port & Company Canvas Tote</div>
+            <div class="garment-type">100% Cotton Canvas — 10 oz</div>
+            <div class="garment-price">Blank: <span>$2–$4</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#d2b48c" data-name="Tan"></div>
+                <div class="swatch" style="background:#1a4a8a" data-name="Navy"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+6 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cotton Canvas Backpack -->
+        <div class="garment-card" data-category="bag">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(BG100)</div>
+          <div class="garment-body">
+            <div class="garment-name">Gildan Canvas Boat Bag / Backpack</div>
+            <div class="garment-type">100% Cotton Canvas — with pocket</div>
+            <div class="garment-price">Blank: <span>$8–$14</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#d2b48c" data-name="Tan"></div>
+                <div class="swatch" style="background:#2e2e2e" data-name="Charcoal"></div>
+                <div class="swatch" style="background:#8b4513" data-name="Navy"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+4 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jute Bag -->
+        <div class="garment-card" data-category="bag">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(JS50)</div>
+          <div class="garment-body">
+            <div class="garment-name">Natural Jute Tote</div>
+            <div class="garment-type">Jute/Synthetic — Eco-friendly</div>
+            <div class="garment-price">Blank: <span>$3–$5</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#d2b48c" data-name="Natural"></div>
+                <div class="swatch" style="background:#8b7355" data-name="Jute"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- HATS -->
+  <section class="section" id="hats">
+    <div class="container">
+      <div class="section-header">
+        <h2>Hats</h2>
+        <p>Embroidery is our specialty on hats. Leather patches also available — see laser engraving.</p>
+      </div>
+      <div class="garment-grid">
+
+        <!-- Structured Cap -->
+        <div class="garment-card" data-category="hat">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(C112)</div>
+          <div class="garment-body">
+            <div class="garment-name">Port & Company Core Cotton Cap</div>
+            <div class="garment-type">100% Cotton — 6-panel, structured</div>
+            <div class="garment-price">Blank: <span>$5–$9</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#1a4a8a" data-name="Navy"></div>
+                <div class="swatch" style="background:#c0c0c0" data-name="Silver"></div>
+                <div class="swatch" style="background:#d00000" data-name="Red"></div>
+                <div class="swatch" style="background:#2e5a1c" data-name="Forest Green"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+20+ more colors →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Low Profile Cap -->
+        <div class="garment-card" data-category="hat">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(C110)</div>
+          <div class="garment-body">
+            <div class="garment-name">Port & Company Unstructured Low Profile</div>
+            <div class="garment-type">100% Cotton — 6-panel, unstructured</div>
+            <div class="garment-price">Blank: <span>$6–$10</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#4b7aab" data-name="Steel Blue"></div>
+                <div class="swatch" style="background:#800020" data-name="Burgundy"></div>
+                <div class="swatch" style="background:#2e2e2e" data-name="Charcoal"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+15 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fleece Beanie -->
+        <div class="garment-card" data-category="hat">
+          <div class="garment-img-placeholder">📷 Add SanMar image<br>(C200)</div>
+          <div class="garment-body">
+            <div class="garment-name">Port & Company Fleece Beanie</div>
+            <div class="garment-type">100% Polyester — moisture wicking</div>
+            <div class="garment-price">Blank: <span>$4–$7</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#1a4a8a" data-name="Navy"></div>
+                <div class="swatch" style="background:#c0c0c0" data-name="Ash"></div>
+                <div class="swatch" style="background:#d00000" data-name="Red"></div>
+              </div>
+              <a href="https://www.sanmar.com" target="_blank" class="more-colors">+8 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- DRINKWARE -->
+  <section class="section" id="drinkware">
+    <div class="container">
+      <div class="section-header">
+        <h2>Drinkware & Tumblers</h2>
+        <p>Laser engraving on powder coated stainless steel. Durable, high perceived value, great for corporate gifts and team merch.</p>
+      </div>
+      <div class="garment-grid">
+
+        <!-- Tumbler -->
+        <div class="garment-card" data-category="drinkware">
+          <div class="garment-img-placeholder">📷 Add S&S image<br>(Tumbler)</div>
+          <div class="garment-body">
+            <div class="garment-name">20 oz Powder Coated Tumbler</div>
+            <div class="garment-type">Stainless Steel — Laser engraveable</div>
+            <div class="garment-price">Blank: <span>$8–$14</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#1a4a8a" data-name="Navy"></div>
+                <div class="swatch" style="background:#c0c0c0" data-name="Silver"></div>
+                <div class="swatch" style="background:#d00000" data-name="Red"></div>
+                <div class="swatch" style="background:#2e5a1c" data-name="Forest Green"></div>
+                <div class="swatch" style="background:#e8d4b8" data-name="Cream"></div>
+              </div>
+              <a href="https://www.ssactivewear.com" target="_blank" class="more-colors">+10 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Water Bottle -->
+        <div class="garment-card" data-category="drinkware">
+          <div class="garment-img-placeholder">📷 Add S&S image<br>(Bottle)</div>
+          <div class="garment-body">
+            <div class="garment-name">32 oz Water Bottle</div>
+            <div class="garment-type">Stainless Steel — Laser engraveable</div>
+            <div class="garment-price">Blank: <span>$10–$16</span> · Decorated upon request</div>
+            <div class="color-section">
+              <div class="color-label">Popular Colors</div>
+              <div class="swatches">
+                <div class="swatch" style="background:#000000" data-name="Black"></div>
+                <div class="swatch" style="background:#ffffff" data-name="White"></div>
+                <div class="swatch" style="background:#1a4a8a" data-name="Navy"></div>
+                <div class="swatch" style="background:#c0c0c0" data-name="Silver"></div>
+                <div class="swatch" style="background:#d00000" data-name="Red"></div>
+              </div>
+              <a href="https://www.ssactivewear.com" target="_blank" class="more-colors">+8 more colors →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FULL CATALOGS -->
+  <section class="section" id="catalog-link">
+    <div class="container">
+      <div class="catalog-cta">
+        <div>
+          <p>Can't find what you're looking for? Browse our full supplier catalogs.</p>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a href="https://www.sanmar.com" target="_blank" class="btn btn-outline">SanMar Catalog →</a>
+          <a href="https://www.ssactivewear.com" target="_blank" class="btn btn-outline">S&S Activewear →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE FORM -->
+  <section class="section" id="quote-form-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Request a Quote</h2>
+        <p>Fill out the form below and we'll get back to you within one business day.</p>
+      </div>
+
+      <form id="quoteForm" onsubmit="submitQuote(event)">
+
+        <!-- MIN ORDER NOTICE -->
+        <div class="min-order-notice" id="minOrderNotice">
+          <div>
+            <strong>Minimum order requirements:</strong>
+            <span id="minOrderText">We typically require a minimum of 24 pieces for screen printing and 12 for embroidery. Orders below these quantities may not be cost-effective to produce.</span>
+          </div>
+        </div>
+
+        <!-- CONTACT INFO -->
+        <div class="form-grid" style="margin-bottom: 20px;">
+          <div class="form-group">
+            <label class="form-label">Name <span class="req">*</span></label>
+            <input type="text" class="form-input" name="name" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input type="tel" class="form-input" name="phone" placeholder="(541) 555-1234">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label class="form-label">Email <span class="req">*</span></label>
+          <input type="email" class="form-input" name="email" placeholder="you@yourbusiness.com" required>
+        </div>
+
+        <!-- DECORATION METHOD -->
+        <div class="form-grid" style="margin-bottom: 20px;">
+          <div class="form-group">
+            <label class="form-label">Decorating Method <span class="req">*</span></label>
+            <select class="form-select" name="decoration" id="decorationSelect" onchange="updateMinOrder()" required>
+              <option value="">Select a method...</option>
+              <option value="screen_print">Screen Printing</option>
+              <option value="embroidery">Embroidery</option>
+              <option value="laser">Laser Engraving</option>
+              <option value="not_sure">Not sure — help me choose</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Estimated Quantity <span class="req">*</span></label>
+            <select class="form-select" name="quantity" id="quantitySelect" onchange="checkQuantity()" required>
+              <option value="">Select quantity...</option>
+              <option value="1-11">1–11 pieces</option>
+              <option value="12-23">12–23 pieces</option>
+              <option value="24-49">24–49 pieces</option>
+              <option value="50-99">50–99 pieces</option>
+              <option value="100-249">100–249 pieces</option>
+              <option value="250-499">250–499 pieces</option>
+              <option value="500+">500+ pieces</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- QUANTITY WARNING -->
+        <div class="min-order-notice hidden" id="quantityWarning" style="margin-bottom: 20px;">
+          <div>
+            <strong>Heads up:</strong>
+            <span id="quantityWarningText"></span>
+          </div>
+        </div>
+
+        <!-- GARMENT INTEREST -->
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label class="form-label">Which garments are you interested in?</label>
+          <textarea class="form-textarea" name="garments" placeholder="E.g., Port & Company t-shirts in navy, 48 pieces. Or I'm not sure yet, need recommendations."></textarea>
+        </div>
+
+        <!-- NOTES -->
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label class="form-label">Anything else we should know?</label>
+          <textarea class="form-textarea" name="notes" placeholder="Timeline, special colors, one-time event vs recurring order, etc."></textarea>
+        </div>
+
+        <!-- ART UPLOAD -->
+        <div class="form-group full" style="margin-bottom: 24px;">
+          <label class="form-label">Upload Your Artwork (optional)</label>
+          <div class="file-upload-wrap" id="fileUploadWrap" onclick="document.getElementById('artFile').click()">
+            <input type="file" id="artFile" name="artwork" accept=".jpg,.jpeg,.png,.pdf,.ai,.eps,.svg,.zip,.rar" onchange="showFileName(this)">
+            <div class="file-upload-icon">📎</div>
+            <div class="file-upload-text"><strong>Click to upload</strong> or drag and drop</div>
+            <div class="file-upload-hint">JPG, PNG, PDF, AI, EPS, SVG, ZIP — Max 20MB</div>
+            <div class="file-name hidden" id="fileName"></div>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <p class="form-privacy">Your information is only used to respond to your quote request.</p>
+          <button type="submit" class="btn btn-accent" id="submitBtn">Send Quote Request</button>
+        </div>
+
+      </form>
+
+      <!-- SUCCESS -->
+      <div class="form-success hidden" id="formSuccess">
+        <div class="form-success-icon">✅</div>
+        <h3>Quote Request Received!</h3>
+        <p>We'll review your request and get back to you within one business day. Check your inbox (and spam folder) for a confirmation.</p>
+        <a href="#" class="btn btn-outline" onclick="resetForm(); return false;">Submit Another Request</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>Printwear of Oregon · <a href="tel:5413444225">541-344-4225</a> · <a href="mailto:customerservice@printwear.net">customerservice@printwear.net</a></p>
+    <p style="margin-top:8px; opacity: 0.6;">1541 HWY 99 N, Eugene, OR 97402</p>
+  </footer>
+
+  <script>
+    // Category nav
+    function activateCategory(el) {
+      document.querySelectorAll('.cat-nav a').forEach(a => a.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    // Smooth scroll for cat nav links
+    document.querySelectorAll('.cat-nav a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Min order logic
+    const minOrders = {
+      screen_print: { min: 24, message: 'Screen printing has a 24-piece minimum. Smaller runs are technically possible but the per-piece cost is significantly higher. Let us know — we\'re happy to quote both.' },
+      embroidery: { min: 12, message: 'Embroidery has a 12-piece minimum per design/thread color. Smaller orders are accepted but the setup cost per piece is higher.' },
+      laser: { min: 12, message: 'Laser engraving has a 12-piece minimum. Engraving is priced per piece so smaller runs can still work economically.' },
+      not_sure: { min: 1, message: '' }
+    };
+
+    function updateMinOrder() {
+      const method = document.getElementById('decorationSelect').value;
+      const notice = document.getElementById('minOrderText');
+
+      if (minOrders[method]) {
+        if (minOrders[method].message) {
+          notice.textContent = minOrders[method].message;
+        } else {
+          notice.textContent = 'Tell us about your project and we\'ll help you determine the best approach and quantities.';
+        }
+      } else {
+        notice.textContent = 'We typically require a minimum of 24 pieces for screen printing and 12 for embroidery. Orders below these quantities may not be cost-effective to produce.';
+      }
+    }
+
+    function checkQuantity() {
+      const method = document.getElementById('decorationSelect').value;
+      const qty = document.getElementById('quantitySelect').value;
+      const warning = document.getElementById('quantityWarning');
+      const warningText = document.getElementById('quantityWarningText');
+
+      if (!method || !qty || !minOrders[method]) { warning.classList.add('hidden'); return; }
+
+      const min = minOrders[method].min;
+      let tooSmall = false;
+
+      if (method === 'screen_print' && (qty === '1-11' || qty === '12-23')) tooSmall = true;
+      if (method === 'embroidery' && qty === '1-11') tooSmall = true;
+      if (method === 'laser' && qty === '1-11') tooSmall = true;
+
+      if (tooSmall) {
+        warningText.textContent = minOrders[method].message;
+        warning.classList.remove('hidden');
+      } else {
+        warning.classList.add('hidden');
+      }
+    }
+
+    // File upload display
+    function showFileName(input) {
+      const nameEl = document.getElementById('fileName');
+      if (input.files && input.files[0]) {
+        nameEl.textContent = '📎 ' + input.files[0].name;
+        nameEl.classList.remove('hidden');
+      }
+    }
+
+    // Drag and drop
+    const uploadWrap = document.getElementById('fileUploadWrap');
+    uploadWrap.addEventListener('dragover', e => { e.preventDefault(); uploadWrap.classList.add('dragover'); });
+    uploadWrap.addEventListener('dragleave', () => uploadWrap.classList.remove('dragover'));
+    uploadWrap.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadWrap.classList.remove('dragover');
+      document.getElementById('artFile').files = e.dataTransfer.files;
+      showFileName(document.getElementById('artFile'));
+    });
+
+    // Form submit — sends to Formspree (free tier, no backend needed)
+    async function submitQuote(e) {
+      e.preventDefault();
+
+      const btn = document.getElementById('submitBtn');
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+
+      window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+      formspree('initForm', { formElement: '#quoteForm', formId: 'xwvzebyl' });
+    }
+
+    function resetForm() {
+      document.getElementById('quoteForm').reset();
+      document.getElementById('quoteForm').classList.remove('hidden');
+      document.getElementById('formSuccess').classList.add('hidden');
+      document.getElementById('fileName').classList.add('hidden');
+      document.getElementById('quantityWarning').classList.add('hidden');
+      document.getElementById('submitBtn').textContent = 'Send Quote Request';
+      document.getElementById('submitBtn').disabled = false;
+    }
+  </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+</body>
+</html>
