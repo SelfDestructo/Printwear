@@ -994,7 +994,7 @@
         <p>Fill out the form below and we'll get back to you within one business day.</p>
       </div>
 
-      <form id="quoteForm" onsubmit="submitQuote(event)">
+      <form id="quoteForm" onsubmit="return submitQuote(event)">
 
         <!-- MIN ORDER NOTICE -->
         <div class="min-order-notice" id="minOrderNotice">
@@ -1232,7 +1232,6 @@
       document.getElementById('submitBtn').disabled = false;
     }
   </script>
-  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 </body>
 </html>
