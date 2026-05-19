@@ -1215,7 +1215,12 @@
     // Click to upload
     uploadWrap.addEventListener('click', e => {
       if (fileDragging) return;
-      document.getElementById('artFile').click();
+      // Don't re-trigger if clicking inside the file input itself
+      if (e.target.tagName === 'INPUT' && e.target.type === 'file') return;
+      // Don't re-open if file already selected (prevents double dialog)
+      const fileInput = document.getElementById('artFile');
+      if (fileInput.files && fileInput.files.length > 0) return;
+      fileInput.click();
     });
 
     // Form submit — sends to Formspree (free tier, no backend needed)
