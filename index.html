@@ -1190,6 +1190,7 @@
     // Form submit — sends to Formspree (free tier, no backend needed)
     async function submitQuote(e) {
       e.preventDefault();
+      e.stopPropagation();
 
       const btn = document.getElementById('submitBtn');
       const originalText = btn.textContent;
@@ -1203,7 +1204,8 @@
         const res = await fetch('https://formspree.io/f/xwvzebyl', {
           method: 'POST',
           body: data,
-          headers: { 'Accept': 'application/json' }
+          headers: { 'Accept': 'application/json' },
+          mode: 'cors'
         });
 
         if (res.ok) {
@@ -1211,15 +1213,18 @@
           document.getElementById('formSuccess').classList.remove('hidden');
           window.scrollTo({ top: document.getElementById('quote-form-section').offsetTop, behavior: 'smooth' });
         } else {
-          alert('Something went wrong. Please try again or email us directly.');
+          const errData = await res.json().catch(() => ({}));
+          alert('Something went wrong: ' + (errData.error || `Error ${res.status}. Please try again or email us directly.`));
           btn.textContent = originalText;
           btn.disabled = false;
         }
       } catch (err) {
-        alert('Network error. Please check your connection and try again.');
+        alert('Network error. Please check your connection and try again, or email us directly at customerservice@printwear.net.');
         btn.textContent = originalText;
         btn.disabled = false;
       }
+
+      return false;
     }
 
     function resetForm() {
