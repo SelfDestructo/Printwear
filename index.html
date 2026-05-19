@@ -1079,12 +1079,12 @@
         <div class="form-group full" style="margin-bottom: 24px;">
           <label class="form-label">Upload Your Artwork (optional)</label>
           <div class="file-upload-wrap" id="fileUploadWrap">
-            <input type="file" id="artFile" name="artwork" accept=".jpg,.jpeg,.png,.pdf,.ai,.eps,.svg,.zip,.rar" onchange="showFileName(this)">
             <div class="file-upload-icon">📎</div>
             <div class="file-upload-text"><strong>Click to upload</strong> or drag and drop</div>
             <div class="file-upload-hint">JPG, PNG, PDF, AI, EPS, SVG, ZIP — Max 20MB</div>
             <div class="file-name hidden" id="fileName"></div>
           </div>
+          <input type="file" id="artFile" name="artwork" accept=".jpg,.jpeg,.png,.pdf,.ai,.eps,.svg,.zip,.rar" onchange="showFileName(this)" style="display:none;">
         </div>
 
         <div class="form-footer">
