@@ -1201,17 +1201,21 @@
       uploadWrap.classList.remove('dragover');
       fileDragging = false;
       const fileInput = document.getElementById('artFile');
-      fileInput.files = e.dataTransfer.files;
-      showFileName(fileInput);
+      // Use DataTransfer API to properly set files (required by browser security)
+      if (e.dataTransfer.files.length > 0) {
+        const dt = new DataTransfer();
+        for (let i = 0; i < e.dataTransfer.files.length; i++) {
+          dt.items.add(e.dataTransfer.files[i]);
+        }
+        fileInput.files = dt.files;
+        showFileName(fileInput);
+      }
     });
 
-    // Click to upload — only opens dialog if no file is already attached (prevents double-upload)
+    // Click to upload
     uploadWrap.addEventListener('click', e => {
       if (fileDragging) return;
-      const fileInput = document.getElementById('artFile');
-      if (!fileInput.files || fileInput.files.length === 0) {
-        fileInput.click();
-      }
+      document.getElementById('artFile').click();
     });
 
     // Form submit — sends to Formspree (free tier, no backend needed)
