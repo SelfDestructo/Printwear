@@ -1188,11 +1188,15 @@
     });
 
     // Form submit — sends to Formspree (free tier, no backend needed)
+    let formSubmitted = false;
+
     async function submitQuote(e) {
       e.preventDefault();
       e.stopPropagation();
 
       const btn = document.getElementById('submitBtn');
+      if (formSubmitted) return;
+      formSubmitted = true;
       const originalText = btn.textContent;
       btn.textContent = 'Sending...';
       btn.disabled = true;
@@ -1213,13 +1217,20 @@
           document.getElementById('formSuccess').classList.remove('hidden');
           window.scrollTo({ top: document.getElementById('quote-form-section').offsetTop, behavior: 'smooth' });
         } else {
-          const errData = await res.json().catch(() => ({}));
-          alert('Something went wrong: ' + (errData.error || `Error ${res.status}. Please try again or email us directly.`));
+          let errMsg = `Error ${res.status}. Please try again or email us directly.`;
+          try {
+            const errData = await res.json();
+            if (errData.error) errMsg = errData.error;
+            else if (errData.errors && errData.errors[0]) errMsg = errData.errors[0].message;
+          } catch(_) {}
+          alert('Error: ' + errMsg);
+          formSubmitted = false;
           btn.textContent = originalText;
           btn.disabled = false;
         }
       } catch (err) {
         alert('Network error. Please check your connection and try again, or email us directly at customerservice@printwear.net.');
+        formSubmitted = false;
         btn.textContent = originalText;
         btn.disabled = false;
       }
@@ -1228,6 +1239,7 @@
     }
 
     function resetForm() {
+      formSubmitted = false;
       document.getElementById('quoteForm').reset();
       document.getElementById('quoteForm').classList.remove('hidden');
       document.getElementById('formSuccess').classList.add('hidden');
